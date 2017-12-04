@@ -88,9 +88,6 @@ def bounce(m,g):
 
     return bounce (m_new, g_new)
 
-
-
-
 ############################################
 ##Utility Functions
 ############################################
@@ -98,14 +95,12 @@ def bounce(m,g):
 def radtodeg(rad):
     return rad*180/pi
 
-
 def degtorad(deg):
     return deg/180*pi
 
 ############################################
 ##Main Program
 ############################################
-
 
 def main():
 
@@ -160,8 +155,7 @@ def main():
 
 
     for i in range(0, MAX_ANGLE):
-        f.write('Angle : %d    Power: %d\n\n' % i*THETA_STEP % power[i])
-
+        f.write('Angle : %d    Power: %d\n\n' % (i*THETA_STEP , power[i]))
 
     ############################################
     ##Simulate (Ray-Tracing)
@@ -172,27 +166,23 @@ def main():
     ## m = tan(pi/2 - theta) * a_big
     ## g = L - (a_big*m) + path_height
 
-
     f.write('Starting Ray Tracing...')
 
-    for(int i = 0; i < MAX_ANGLE; i++) ##For Each Theta i
+    for i in range(MAX_ANGLE): ##For Each Theta
         theta = i*THETA_STEP; ## theta incident
-        ##fout << "Theta: "  << theta << endl;
-        ##cout << "Theta: "  << theta << endl;
         total=0;
-        for(int j = 0; j< PATHS_PER_ANGLE ; j++)  ##For Each (of the 1000) paths per Theta i
+        for j in range(PATHS_PER_ANGLE):  ##For Each (of the 1000) paths per Theta i
 
-            if(i*THETA_STEP!=0)
+            if(i*THETA_STEP!=0):
                 m = tan(pi/2 - theta)
                 g = L - (a_big*m) + j/(2*a_big*m)
-                    if(bounce(m,g))
-                        total++
+                    if(bounce(m,g)):
+                        total+=1
 
-            else
-                total++;
+            else:
+                total+=1;
 
-        weight[i] = ((double)total)/PATHS_PER_ANGLE;
-
+        weight[i] = ((double)total)/PATHS_PER_ANGLE
 
     ############################################
     ##Integrate Results (Sum of Multiplication)
@@ -200,13 +190,11 @@ def main():
 
     f.write('Summing the Multiplication...')
 
-    power_captured[2*MAX_ANGLE]
     total_power = 0
 
-    for(int i =0; i < MAX_ANGLE; i++){
-    power_captured[i] = power[i]*weight[i];
-    total_power += power_captured[i];
-    }
+    for i in range(MAX_ANGLE):
+        power_captured[i] = power[i]*weight[i]
+        total_power += power_captured[i]
 
 
     ############################################
@@ -218,10 +206,10 @@ def main():
     ##power over power without collector
     ##power over power incident upon collector
 
-    cout << "Power Captured: " << total_power << endl;
+    print "Power Captured: %d" % total_power
 
     ##These are linear powers for comparison only
     ##For accurate 3D Power Simulations we need to consider an integral
 
-    f.close();
+    f.close()
     return
